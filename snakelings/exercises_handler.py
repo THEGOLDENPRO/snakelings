@@ -30,6 +30,7 @@ class ExerciseHandler():
 
     def get_exercises(self) -> Iterable[Exercise]:
 
-        for exercise_path in self._path.iterdir():
+        for path in self._path.iterdir():
 
-            yield Exercise(exercise_path)
+            if path.is_dir() and path.name[0].isnumeric():
+                yield Exercise(path)

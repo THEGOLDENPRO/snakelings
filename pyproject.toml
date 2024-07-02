@@ -24,7 +24,8 @@ classifiers = [
 ]
 dependencies = [
     "typer",
-    "devgoldyutils"
+    "devgoldyutils",
+    "watchdog"
 ]
 
 dynamic = ["version"]
@@ -51,3 +52,6 @@ include = ["snakelings*"]
 
 [project.scripts]
 snakelings = "snakelings.__main__:app"
+
+[tool.setuptools.package-data]
+"snakelings" = ["exercises"]
