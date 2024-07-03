@@ -7,5 +7,23 @@ If it was already a challenge getting to this point, don't worry; from now on ev
 
 [comment]: # (explain how to complete exercises)
 
-## How do you complete an exercise?
-...
+## How do I complete my first exercise?
+To complete your first exercise navigate to the '0_intro' folder under exercises, then open the 'main.py' python script there in a text or code editor.
+
+In 'main.py' you will be confronted with some python code:
+
+```python
+# I'M NOT DONE YET!
+
+print("Hello, World!")
+print("It's time to get 🔥 cooking with 🐍 Python!")
+```
+
+On a typical exercise we'll ask you to fix the code then remove the `# I'M NOT DONE YET!` comment on the fist line when you are done but as this is your first exercise we've made it easy for you and given you ready to execute and correct python code. 😊
+
+# The Task!
+As said, you have only one task to complete in this exercise.
+
+1. Remove the `# I'M NOT DONE YET!` comment at the beginning of the code.
+
+2. Save the file then sit and watch. ✴️

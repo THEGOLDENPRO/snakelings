@@ -13,7 +13,8 @@ from devgoldyutils import Colours
 from rich.markdown import Markdown
 
 from .logger import snakelings_logger
-from .watchdog import watch_exercise_complete
+from .execution import execute_exercise_code
+from .watchdog import watch_exercise_complete, watch_exercise_modify
 from .exercises_handler import ExerciseHandler
 
 __all__ = ()
@@ -58,7 +59,23 @@ def start(
         markdown = Markdown(exercise.readme)
         console.print(markdown)
 
-        watch_exercise_complete(exercise)
+        watch_exercise_complete(exercise) # This will halt here until the exercise is marked complete
+
+        snakelings_logger.info(f"Oh, you're done with the '{exercise.title}' exercise.")
+
+        snakelings_logger.info("Now let's execute that code...")
+        result, output = execute_exercise_code(exercise)
+
+        while result is False:
+            snakelings_logger.error(
+                "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save."
+            )
+
+            watch_exercise_modify(exercise)
+
+            result, output = execute_exercise_code(exercise)
+
+        print(f"\n{output}")
 
     if no_exercises:
         snakelings_logger.error(
