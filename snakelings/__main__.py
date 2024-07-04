@@ -56,8 +56,18 @@ def start(
         if exercise.completed:
             continue
 
+        if exercise_id is not None and not exercise.id == exercise_id:
+            continue
+
         markdown = Markdown(exercise.readme)
         console.print(markdown)
+
+        if exercise.execute_first:
+            _, output = execute_exercise_code(exercise)
+
+            print(f"\n{Colours.RED.apply('[🛑 Problem]')} \n{output}")
+
+        print(Colours.CLAY.apply(f"⚡ Complete the '{exercise.title}' exercise!"))
 
         watch_exercise_complete(exercise) # This will halt here until the exercise is marked complete
 
@@ -67,6 +77,7 @@ def start(
         result, output = execute_exercise_code(exercise)
 
         while result is False:
+            # TODO: Randomize these error messages.
             snakelings_logger.error(
                 "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save."
             )
@@ -75,7 +86,7 @@ def start(
 
             result, output = execute_exercise_code(exercise)
 
-        print(f"\n{output}")
+        print(f"\n{Colours.ORANGE.apply('[✨ Output]')} \n{output}")
 
     if no_exercises:
         snakelings_logger.error(

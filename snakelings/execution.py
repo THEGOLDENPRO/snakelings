@@ -23,13 +23,14 @@ def execute_exercise_code(exercise: Exercise) -> Tuple[bool, str]:
     logger.debug(f"Calling python to execute '{main_py_path}'...")
     popen = subprocess.Popen(
         [sys.executable, main_py_path], 
+        stderr = subprocess.PIPE, 
         stdout = subprocess.PIPE, 
         text = True, 
     )
 
     return_code = popen.wait()
-    output, _ = popen.communicate()
+    output, output_error = popen.communicate()
 
     logger.debug(f"Return code: {return_code}")
 
-    return True if return_code == 0 else False, output
+    return True if return_code == 0 else False, output if return_code == 0 else output_error
