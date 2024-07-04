@@ -10,6 +10,12 @@
 
 <img width="1000px" src="https://github.com/THEGOLDENPRO/snakelings/assets/66202304/ce48eae7-c2c6-4331-b7fe-a67bbfc07978">
 
+<br>
+<br>
+
+> [!Warning]
+> This project is a work in progress so it is not complete yet.
+
 ## The problem.
 Learning Python involves **actually** doing things practically; sitting down and watching YouTube tutorial after another won't get you anywhere. Beginners tend to fall into this, we even have a name for it, Tutorial 🔥 Hell. Tutorials are good for getting to know the basics but that's where I believe you should stop, and begin actually writing code.
 
