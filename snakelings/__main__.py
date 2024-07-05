@@ -26,7 +26,7 @@ app = typer.Typer(
 
 @app.command(help = "Start the exercises!")
 def start(
-    exercise_id: Optional[int] = typer.Argument(None, help = "The ID of the exercise to start from."), 
+    exercise_id: int = typer.Argument(0, help = "The ID of the exercise to start from."), 
     path_to_exercises_folder: str = typer.Option("./exercises", "--exercises-path", help = "The path to the exercises folder you are using."),
 
     debug: bool = typer.Option(False, help = "Log more details.")
@@ -50,13 +50,13 @@ def start(
 
     no_exercises = True
 
-    for exercise in handler.get_exercises():
+    for exercise in sorted(handler.get_exercises(), key = lambda x: x.id):
         no_exercises = False
 
         if exercise.completed:
             continue
 
-        if exercise_id is not None and not exercise.id == exercise_id:
+        if exercise_id >= exercise.id and not exercise.id == exercise_id:
             continue
 
         markdown = Markdown(exercise.readme)
@@ -81,6 +81,8 @@ def start(
             snakelings_logger.error(
                 "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save."
             )
+
+            print(f"\n{Colours.BOLD_RED.apply('[🟥 Error]')} \n{output}")
 
             watch_exercise_modify(exercise)
 
