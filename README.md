@@ -21,6 +21,11 @@ Learning Python involves **actually** doing things practically; sitting down and
 
 🐍 Snakelings helps with 🌟 that. 🐍 Snakelings provides a set of short exercises to immerse you into developing and debugging Python code. Inspired by [Rustlings](https://github.com/rust-lang/rustlings), each exercise in Snakelings has intentional faults designed to expose you to as many Python exceptions and errors as possible. 🐍 Snakelings bridges the gap between the theoretical and practical coding knowledge by providing a **real** environment.
 
+## TODO
+- [ ] Pytest intergraion (some exercises will make use of pytest to test the anwsers/values)
+
+*and more to be added*
+
 <br>
 
 > more readme coming soon...
