@@ -52,12 +52,10 @@ def execute_pytest(exercise: Exercise) -> Tuple[bool, str]:
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
 
-    return True if return_code == 0 else False, "" if return_code == 0 else output_buffer.getvalue()
+    return True if return_code == 0 else False, output_buffer.getvalue()
 
 def handle_execution(exercise: Exercise) -> Tuple[bool, str]:
     if exercise.use_pytest is False:
-        result, output = execute_exercise_code(exercise)
+        return execute_exercise_code(exercise)
     else:
-        result, output = execute_pytest(exercise)
-    
-    return result, output
+        return execute_pytest(exercise)
