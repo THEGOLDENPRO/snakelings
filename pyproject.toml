@@ -25,7 +25,8 @@ classifiers = [
 dependencies = [
     "typer",
     "devgoldyutils",
-    "watchdog"
+    "watchdog",
+    "pytest"
 ]
 
 dynamic = ["version"]
