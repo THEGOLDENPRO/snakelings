@@ -11,9 +11,10 @@ from pathlib import Path
 from rich.console import Console
 from devgoldyutils import Colours
 from rich.markdown import Markdown
+import random
 
 from .logger import snakelings_logger
-from .execution import execute_exercise_code
+from .execution import handle_execution
 from .watchdog import watch_exercise_complete, watch_exercise_modify
 from .exercises_handler import ExerciseHandler
 
@@ -63,7 +64,7 @@ def start(
         console.print(markdown)
 
         if exercise.execute_first:
-            _, output = execute_exercise_code(exercise)
+            _, output = handle_execution(exercise)
 
             print(f"\n{Colours.RED.apply('[🛑 Problem]')} \n{output}")
 
@@ -74,19 +75,23 @@ def start(
         snakelings_logger.info(f"Oh, you're done with the '{exercise.title}' exercise.")
 
         snakelings_logger.info("Now let's execute that code...")
-        result, output = execute_exercise_code(exercise)
+        result, output = handle_execution(exercise)
 
         while result is False:
-            # TODO: Randomize these error messages.
-            snakelings_logger.error(
+            error_messages = [
+                "Oh no (anyways), an exception has been raised. Please look over the error message and retry.",
                 "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save."
+            ]
+
+            snakelings_logger.error(
+                random.choice(error_messages)           
             )
 
             print(f"\n{Colours.BOLD_RED.apply('[🟥 Error]')} \n{output}")
 
             watch_exercise_modify(exercise)
 
-            result, output = execute_exercise_code(exercise)
+            result, output = handle_execution(exercise)
 
         print(f"\n{Colours.ORANGE.apply('[✨ Output]')} \n{output}")
 

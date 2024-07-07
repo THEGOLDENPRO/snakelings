@@ -17,6 +17,7 @@ class Exercise:
     title: str = field(init = False)
     readme: str = field(init = False)
     completed: bool = field(init = False)
+    use_pytest: bool = field(init = False)
     execute_first: bool = field(init = False)
 
     path: Path
@@ -45,6 +46,8 @@ class Exercise:
         done_comment_line = code_file.readline()
 
         self.completed = False if "# I'M NOT DONE YET" in done_comment_line else True
+
+        self.use_pytest = config_code_data.get("use_pytest", False)
 
         self.execute_first = config_code_data.get("execute_first", False)
 
