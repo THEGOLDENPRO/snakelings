@@ -22,7 +22,7 @@ logger = LoggerAdapter(snakelings_logger, prefix = Colours.GREY.apply("🐶 Watc
 logging_event_handler_logger = LoggerAdapter(logger, prefix = "Logging")
 
 def watch_exercise_complete(exercise: Exercise) -> None:
-    """Halts until the exercise is completed successfully otherwise it NEVER returns."""
+    """Halts until the exercise is marked completed successfully otherwise it NEVER returns."""
     event = watch_exercise_modify(exercise)
 
     while True:

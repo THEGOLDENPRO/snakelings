@@ -14,7 +14,7 @@ from rich.markdown import Markdown
 import random
 
 from .logger import snakelings_logger
-from .execution import handle_execution
+from .execution import test_exercise
 from .watchdog import watch_exercise_complete, watch_exercise_modify
 from .exercises_handler import ExerciseHandler
 
@@ -55,7 +55,10 @@ def start(
         no_exercises = False
 
         if exercise.completed:
-            continue
+            result, _ = test_exercise(exercise)
+
+            if result is True:
+                continue
 
         if exercise_id >= exercise.id and not exercise.id == exercise_id:
             continue
@@ -64,7 +67,7 @@ def start(
         console.print(markdown)
 
         if exercise.execute_first:
-            _, output = handle_execution(exercise)
+            _, output = test_exercise(exercise)
 
             print(f"\n{Colours.RED.apply('[🛑 Problem]')} \n{output}")
 
@@ -75,7 +78,7 @@ def start(
         snakelings_logger.info(f"Oh, you're done with the '{exercise.title}' exercise.")
 
         snakelings_logger.info("Now let's execute that code...")
-        result, output = handle_execution(exercise)
+        result, output = test_exercise(exercise)
 
         while result is False:
             error_messages = [
@@ -91,7 +94,7 @@ def start(
 
             watch_exercise_modify(exercise)
 
-            result, output = handle_execution(exercise)
+            result, output = test_exercise(exercise)
 
         print(f"\n{Colours.ORANGE.apply('[✨ Output]')} \n{output}")
 
@@ -106,6 +109,7 @@ def start(
         "\nCome back for more exercises later as snakelings grows 🪴 more or run the " \
         "'snakelings update' command to check if there are any new exercises."
     )
+
 
 @app.command(help = "Create exercises folder in the current working directory.")
 def init(

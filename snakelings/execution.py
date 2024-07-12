@@ -14,7 +14,7 @@ import io
 from .logger import snakelings_logger
 
 __all__ = (
-    "handle_execution",
+    "test_exercise",
 )
 
 logger = LoggerAdapter(snakelings_logger, prefix = "execution")
@@ -37,25 +37,25 @@ def execute_exercise_code(exercise: Exercise) -> Tuple[bool, str]:
 
     return True if return_code == 0 else False, output if return_code == 0 else output_error
 
-def execute_pytest(exercise: Exercise) -> Tuple[bool, str]:
+def test_exercise_with_pytest(exercise: Exercise) -> Tuple[bool, str]:
     main_py_path = exercise.path.joinpath("main.py").absolute()
 
-    logger.debug(f"Using pytest to execute '{main_py_path}'...")
+    logger.debug(f"Testing exercise '{main_py_path}' with pytest...")
 
     output_buffer = io.StringIO()
 
     sys.stdout = output_buffer
     sys.stderr = output_buffer
 
-    return_code = pytest.main([main_py_path])
+    return_code = pytest.main([main_py_path, "--quiet"])
 
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
 
     return True if return_code == 0 else False, output_buffer.getvalue()
 
-def handle_execution(exercise: Exercise) -> Tuple[bool, str]:
-    if exercise.use_pytest is False:
-        return execute_exercise_code(exercise)
-    else:
-        return execute_pytest(exercise)
+def test_exercise(exercise: Exercise) -> Tuple[bool, str]:
+    if exercise.use_pytest is True:
+        return test_exercise_with_pytest(exercise)
+
+    return execute_exercise_code(exercise)
