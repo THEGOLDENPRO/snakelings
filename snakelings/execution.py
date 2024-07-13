@@ -42,17 +42,21 @@ def test_exercise_with_pytest(exercise: Exercise) -> Tuple[bool, str]:
 
     logger.debug(f"Testing exercise '{main_py_path}' with pytest...")
 
-    output_buffer = io.StringIO()
+    popen = subprocess.Popen(
+        [
+            "pytest",
+            "--quiet",
+            main_py_path
+        ], 
+        stderr = subprocess.PIPE,
+        stdout = subprocess.PIPE,
+        text = True
+    )
 
-    sys.stdout = output_buffer
-    sys.stderr = output_buffer
+    stdout, stderr = popen.communicate()
+    return_code = popen.wait()
 
-    return_code = pytest.main([main_py_path, "--quiet"])
-
-    sys.stdout = sys.__stdout__
-    sys.stderr = sys.__stderr__
-
-    return True if return_code == 0 else False, output_buffer.getvalue()
+    return True if return_code == 0 else False, stdout
 
 def test_exercise(exercise: Exercise) -> Tuple[bool, str]:
     if exercise.use_pytest is True:
