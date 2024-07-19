@@ -1,5 +1,5 @@
 [project]
-name = "snakelings"
+name = "snekilings"
 description = "🐍 A collection of small exercises to assist beginners at reading and writing Python code."
 authors = [
     {name = "Goldy", email = "goldy@devgoldy.xyz"}
@@ -38,21 +38,21 @@ dev = [
 ]
 
 [project.urls]
-GitHub = "https://github.com/THEGOLDENPRO/snakelings"
-BugTracker = "https://github.com/THEGOLDENPRO/snakelings/issues"
+GitHub = "https://github.com/THEGOLDENPRO/snekilings"
+BugTracker = "https://github.com/THEGOLDENPRO/snekilings/issues"
 
 [tool.setuptools.dynamic]
-version = { attr = "snakelings.__version__" }
+version = { attr = "snekilings.__version__" }
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["snakelings*"]
+include = ["snekilings*"]
 
 [project.scripts]
-snakelings = "snakelings.__main__:app"
+sneki = "snekilings.__main__:app"
 
 [tool.setuptools.package-data]
-"snakelings" = ["exercises"]
+"snekilings" = ["exercises"]
