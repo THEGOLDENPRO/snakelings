@@ -63,6 +63,8 @@ def start(
         if exercise_id >= exercise.id and not exercise.id == exercise_id:
             continue
 
+        console.clear()
+
         markdown = Markdown(exercise.readme)
         console.print(markdown)
 
