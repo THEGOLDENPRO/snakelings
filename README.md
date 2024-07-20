@@ -21,8 +21,8 @@ Learning Python involves **actually** doing things practically; sitting down and
 ## TODO
 - [x] Print markdown to terminal.
 - [x] Pytest intergraion (some exercises will make use of pytest to test the anwsers/values)
-- [ ] Command to update exercises folder with new exercises.
-- [ ] More exercises...
+- [x] Command to update exercises folder with new exercises.
+- [ ] More appropriate exercises...
 
 *and more to be added*
 
