@@ -138,3 +138,26 @@ def init(
     shutil.copytree(library_exercises_path, exercises_folder_path, dirs_exist_ok = True)
 
     snakelings_logger.info(Colours.BLUE.apply("✨ Exercises copied!"))
+
+@app.command(help = "Update exercises folder in the current working directory.")
+def update(
+    path_to_exercises_folder: str = typer.Argument("./exercises", help = "The path to dump the exercises."), 
+
+    debug: bool = typer.Option(False, help = "Log more details.")
+):
+    exercises_folder_path = Path(path_to_exercises_folder)
+
+    if debug:
+        snakelings_logger.setLevel(logging.DEBUG)
+
+    library_exercises_path = Path(__file__).parent.joinpath("exercises")
+
+    for exercise in library_exercises_path.iterdir():
+        local_exercise = exercises_folder_path.joinpath(exercise.stem)
+
+        if local_exercise.exists():
+            continue
+
+        shutil.copytree(exercise, local_exercise)
+
+    snakelings_logger.info(Colours.BLUE.apply("✨ Exercises updated!"))
