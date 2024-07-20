@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     ...
 
+import time
 import typer
 import random
 import shutil
@@ -20,6 +21,12 @@ from .exercises_handler import ExerciseHandler
 
 __all__ = ()
 
+EXERCISE_ERROR_MESSAGES = [
+    "Oh no (anyways), an exception has been raised. Please look over the error message and retry.", 
+    "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save.", 
+    "Looks like that one didn't execute successfully. Try again bro."
+]
+
 app = typer.Typer(
     pretty_exceptions_enable = False, 
     help = "🐍 A collection of small exercises to assist beginners at reading and writing Python code."
@@ -30,7 +37,8 @@ def start(
     exercise_id: int = typer.Argument(0, help = "The ID of the exercise to start from."), 
     path_to_exercises_folder: str = typer.Option("./exercises", "--exercises-path", help = "The path to the exercises folder you are using."),
 
-    debug: bool = typer.Option(False, help = "Log more details.")
+    debug: bool = typer.Option(False, help = "Log more details."), 
+    wait: bool = typer.Option(True, help = "Should we wait some time before clearing the screen and moving onto the next exercise?")
 ):
     exercises_path = Path(path_to_exercises_folder)
 
@@ -85,14 +93,7 @@ def start(
         result, output = test_exercise(exercise)
 
         while result is False:
-            error_messages = [
-                "Oh no (anyways), an exception has been raised. Please look over the error message and retry.",
-                "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save."
-            ]
-
-            snakelings_logger.error(
-                random.choice(error_messages)           
-            )
+            snakelings_logger.error(random.choice(EXERCISE_ERROR_MESSAGES)           )
 
             print(f"\n{Colours.BOLD_RED.apply('[🟥 Error]')} \n{output}")
             print(Colours.ORANGE.apply(f"🚧 Progress: {exercise.id} / {exercise_count}"))
@@ -102,6 +103,10 @@ def start(
             result, output = test_exercise(exercise)
 
         print(f"\n{Colours.ORANGE.apply('[✨ Output]')} \n{output}")
+
+        if wait:
+            snakelings_logger.info("Moving onto the next exercise in 3 seconds...")
+            time.sleep(4) # TODO: Maybe make this adjustable.
 
     if no_exercises:
         snakelings_logger.error(
