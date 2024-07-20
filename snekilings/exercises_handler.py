@@ -32,5 +32,21 @@ class ExerciseHandler():
 
         for path in self._path.iterdir():
 
-            if path.is_dir() and path.name[0].isnumeric():
+            if self.__is_exercise(path):
                 yield Exercise(path)
+
+    def get_exercises_amount(self) -> int:
+        exercises = 0
+
+        for path in self._path.iterdir():
+
+            if self.__is_exercise(path):
+                exercises += 1
+
+        return exercises
+
+    def __is_exercise(self, path: Path) -> bool:
+        if path.is_dir() and path.name[0].isnumeric():
+            return True
+        
+        return False

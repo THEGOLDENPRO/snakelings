@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     ...
@@ -50,6 +50,7 @@ def start(
     handler = ExerciseHandler(exercises_path)
 
     no_exercises = True
+    exercise_count = handler.get_exercises_amount()
 
     for exercise in sorted(handler.get_exercises(), key = lambda x: x.id):
         no_exercises = False
@@ -73,6 +74,7 @@ def start(
 
             print(f"\n{Colours.RED.apply('[🛑 Problem]')} \n{output}")
 
+        print(Colours.ORANGE.apply(f"🚧 Progress: {exercise.id} / {exercise_count}"))
         print(Colours.CLAY.apply(f"⚡ Complete the '{exercise.title}' exercise!"))
 
         watch_exercise_complete(exercise) # This will halt here until the exercise is marked complete
@@ -93,6 +95,7 @@ def start(
             )
 
             print(f"\n{Colours.BOLD_RED.apply('[🟥 Error]')} \n{output}")
+            print(Colours.ORANGE.apply(f"🚧 Progress: {exercise.id} / {exercise_count}"))
 
             watch_exercise_modify(exercise)
 
@@ -107,7 +110,7 @@ def start(
         return False
 
     snakelings_logger.info(
-        "🎊 Congrats, you have finished all the exercises we currently have to offer." \
+        Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
         "\nCome back for more exercises later as snakelings grows 🪴 more or run the " \
         "'snakelings update' command to check if there are any new exercises."
     )
