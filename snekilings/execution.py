@@ -9,13 +9,13 @@ import sys
 import subprocess
 from devgoldyutils import LoggerAdapter
 
-from .logger import snakelings_logger
+from .logger import snekilings_logger
 
 __all__ = (
     "test_exercise",
 )
 
-logger = LoggerAdapter(snakelings_logger, prefix = "execution")
+logger = LoggerAdapter(snekilings_logger, prefix = "execution")
 
 def execute_exercise_code(exercise: Exercise) -> Tuple[bool, str]:
     main_py_path = exercise.path.joinpath("main.py")

@@ -15,7 +15,7 @@ from devgoldyutils import Colours
 from rich.markdown import Markdown
 
 from .execution import test_exercise
-from .logger import snakelings_logger
+from .logger import snekilings_logger
 from .watchdog import watch_exercise_complete, watch_exercise_modify
 from .exercises_handler import ExerciseHandler
 
@@ -43,12 +43,12 @@ def start(
     exercises_path = Path(path_to_exercises_folder)
 
     if debug:
-        snakelings_logger.setLevel(logging.DEBUG)
+        snekilings_logger.setLevel(logging.DEBUG)
 
-    snakelings_logger.debug(f"Exercises Path -> '{exercises_path.absolute()}'")
+    snekilings_logger.debug(f"Exercises Path -> '{exercises_path.absolute()}'")
 
     if not exercises_path.exists():
-        snakelings_logger.error(
+        snekilings_logger.error(
             f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'sneki init'."
         )
         raise typer.Exit(1)
@@ -87,13 +87,13 @@ def start(
 
         watch_exercise_complete(exercise) # This will halt here until the exercise is marked complete
 
-        snakelings_logger.info(f"Oh, you're done with the '{exercise.title}' exercise.")
+        snekilings_logger.info(f"Oh, you're done with the '{exercise.title}' exercise.")
 
-        snakelings_logger.info("Now let's execute that code...")
+        snekilings_logger.info("Now let's execute that code...")
         result, output = test_exercise(exercise)
 
         while result is False:
-            snakelings_logger.error(random.choice(EXERCISE_ERROR_MESSAGES)           )
+            snekilings_logger.error(random.choice(EXERCISE_ERROR_MESSAGES)           )
 
             print(f"\n{Colours.BOLD_RED.apply('[🟥 Error]')} \n{output}")
             print(Colours.ORANGE.apply(f"🚧 Progress: {exercise.id} / {exercise_count}"))
@@ -105,19 +105,19 @@ def start(
         print(f"\n{Colours.ORANGE.apply('[✨ Output]')} \n{output}")
 
         if wait:
-            snakelings_logger.info("Moving onto the next exercise in 3 seconds...")
+            snekilings_logger.info("Moving onto the next exercise in 3 seconds...")
             time.sleep(4) # TODO: Maybe make this adjustable.
 
     if no_exercises:
-        snakelings_logger.error(
+        snekilings_logger.error(
             f"There was no exercises in that directory! DIR --> '{exercises_path.absolute()}'."
         )
         raise typer.Exit(1)
 
-    snakelings_logger.info(
+    snekilings_logger.info(
         Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
-        "\nCome back for more exercises later as snakelings grows 🪴 more or run the " \
-        "'snakelings update' command to check if there are any new exercises."
+        "\nCome back for more exercises later as snekilings grows 🪴 more or run the " \
+        "'snekilings update' command to check if there are any new exercises."
     )
 
 
@@ -130,14 +130,14 @@ def init(
     exercises_folder_path = Path(path_to_exercises_folder)
 
     if debug:
-        snakelings_logger.setLevel(logging.DEBUG)
+        snekilings_logger.setLevel(logging.DEBUG)
 
     library_exercises_path = Path(__file__).parent.joinpath("exercises")
 
-    snakelings_logger.debug("Copying exercises from snakelings module...")
+    snekilings_logger.debug("Copying exercises from snekilings module...")
 
     if exercises_folder_path.exists() and next(exercises_folder_path.iterdir(), None) is not None:
-        snakelings_logger.error(
+        snekilings_logger.error(
             f"The exercises folder ({exercises_folder_path.absolute()}) is not empty!" \
             "\nIf you would like to update your exercises use 'sneki update' instead."
         )
@@ -145,7 +145,7 @@ def init(
 
     shutil.copytree(library_exercises_path, exercises_folder_path, dirs_exist_ok = True)
 
-    snakelings_logger.info(Colours.BLUE.apply("✨ Exercises copied!"))
+    snekilings_logger.info(Colours.BLUE.apply("✨ Exercises copied!"))
 
 @app.command(help = "Update exercises folder in the current working directory.")
 def update(
@@ -157,11 +157,11 @@ def update(
     exercises_folder_path = Path(path_to_exercises_folder)
 
     if debug:
-        snakelings_logger.setLevel(logging.DEBUG)
+        snekilings_logger.setLevel(logging.DEBUG)
 
     library_exercises_path = Path(__file__).parent.joinpath("exercises")
 
-    snakelings_logger.debug("Checking and copying exercises from snakelings module...")
+    snekilings_logger.debug("Checking and copying exercises from snekilings module...")
 
     for exercise in library_exercises_path.iterdir():
         local_exercise = exercises_folder_path.joinpath(exercise.stem)
@@ -169,12 +169,12 @@ def update(
         if local_exercise.exists():
             continue
 
-        snakelings_logger.debug(f"Copying exercise from '{exercise}'...")
+        snekilings_logger.debug(f"Copying exercise from '{exercise}'...")
         shutil.copytree(exercise, local_exercise)
         did_update = True
 
     if not did_update:
-        snakelings_logger.info(Colours.RED.apply("There are no new exercises."))
+        snekilings_logger.info(Colours.RED.apply("There are no new exercises."))
         raise typer.Exit()
 
-    snakelings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
+    snekilings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
