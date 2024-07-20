@@ -22,7 +22,7 @@ Learning Python involves **actually** doing things practically; sitting down and
 - [x] Print markdown to terminal.
 - [x] Pytest intergraion (some exercises will make use of pytest to test the anwsers/values)
 - [x] Command to update exercises folder with new exercises.
-- [ ] More appropriate exercises...
+- [ ] More appropriate exercises, following [Rustlings](https://github.com/rust-lang/rustlings/tree/main/exercises).
 
 *and more to be added*
 
