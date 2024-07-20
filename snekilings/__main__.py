@@ -162,6 +162,7 @@ def update(
             continue
 
         shutil.copytree(exercise, local_exercise)
+        did_update = True
 
     if did_update:
         snakelings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
