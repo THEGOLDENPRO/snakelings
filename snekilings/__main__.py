@@ -41,9 +41,9 @@ def start(
 
     if not exercises_path.exists():
         snakelings_logger.error(
-            f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'snakelings init'."
+            f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'sneki init'."
         )
-        return False
+        raise typer.Exit(1)
 
     console = Console()
 
@@ -107,7 +107,7 @@ def start(
         snakelings_logger.error(
             f"There was no exercises in that directory! DIR --> '{exercises_path.absolute()}'."
         )
-        return False
+        raise typer.Exit(1)
 
     snakelings_logger.info(
         Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
@@ -134,9 +134,9 @@ def init(
     if exercises_folder_path.exists() and next(exercises_folder_path.iterdir(), None) is not None:
         snakelings_logger.error(
             f"The exercises folder ({exercises_folder_path.absolute()}) is not empty!" \
-            "\nIf you would like to update your exercises use 'snakelings update' instead."
+            "\nIf you would like to update your exercises use 'sneki update' instead."
         )
-        return False
+        raise typer.Exit(1)
 
     shutil.copytree(library_exercises_path, exercises_folder_path, dirs_exist_ok = True)
 
@@ -164,11 +164,12 @@ def update(
         if local_exercise.exists():
             continue
 
+        snakelings_logger.debug(f"Copying exercise from '{exercise}'...")
         shutil.copytree(exercise, local_exercise)
         did_update = True
 
-    if did_update:
-        snakelings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
-        return False
-    
-    snakelings_logger.info(Colours.RED.apply("There are no new exercises"))
+    if not did_update:
+        snakelings_logger.info(Colours.RED.apply("There are no new exercises."))
+        raise typer.Exit()
+
+    snakelings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
