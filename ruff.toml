@@ -1,2 +1,4 @@
+exclude = ["snekilings/exercises"]
+
 [lint.per-file-ignores]
 "__init__.py" = ["F403"]

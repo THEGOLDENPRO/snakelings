@@ -8,8 +8,6 @@ if TYPE_CHECKING:
 import sys
 import subprocess
 from devgoldyutils import LoggerAdapter
-import pytest
-import io
 
 from .logger import snakelings_logger
 
