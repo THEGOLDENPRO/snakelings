@@ -1,4 +1,4 @@
-# WELCOME TO 🐍 snekilings!
+# WELCOME TO 🐍 SNEKILINGS!
 Hello user, you have made such a fantastic choice choosing snekilings to learn your desired language 🌟 Python. 
 Don't worry I won't ramble for too long, because I know you've come here to **actually write code** instead of listening to another developer ramble. **SO LET'S GET STARTED!**
 
