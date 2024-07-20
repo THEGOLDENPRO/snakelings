@@ -145,6 +145,7 @@ def update(
 
     debug: bool = typer.Option(False, help = "Log more details.")
 ):
+    did_update = False
     exercises_folder_path = Path(path_to_exercises_folder)
 
     if debug:
@@ -162,4 +163,8 @@ def update(
 
         shutil.copytree(exercise, local_exercise)
 
-    snakelings_logger.info(Colours.BLUE.apply("✨ Exercises updated!"))
+    if did_update:
+        snakelings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
+        return False
+    
+    snakelings_logger.info(Colours.RED.apply("There are no new exercises"))
