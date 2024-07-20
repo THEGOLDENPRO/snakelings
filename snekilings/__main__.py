@@ -75,6 +75,8 @@ def start(
 
         print(Colours.CLAY.apply(f"⚡ Complete the '{exercise.title}' exercise!"))
 
+        print(Colours.ORANGE.apply(f"🚧 Progress: {exercise.id + 1}/{handler.get_exercises_amount()}"))
+
         watch_exercise_complete(exercise) # This will halt here until the exercise is marked complete
 
         snakelings_logger.info(f"Oh, you're done with the '{exercise.title}' exercise.")
