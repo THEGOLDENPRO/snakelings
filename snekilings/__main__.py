@@ -41,9 +41,9 @@ def start(
 
     if not exercises_path.exists():
         snakelings_logger.error(
-            f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'snakelings init'."
+            f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'sneki init'."
         )
-        return False
+        raise typer.Exit(1)
 
     console = Console()
 
@@ -107,7 +107,7 @@ def start(
         snakelings_logger.error(
             f"There was no exercises in that directory! DIR --> '{exercises_path.absolute()}'."
         )
-        return False
+        raise typer.Exit(1)
 
     snakelings_logger.info(
         Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
@@ -134,10 +134,42 @@ def init(
     if exercises_folder_path.exists() and next(exercises_folder_path.iterdir(), None) is not None:
         snakelings_logger.error(
             f"The exercises folder ({exercises_folder_path.absolute()}) is not empty!" \
-            "\nIf you would like to update your exercises use 'snakelings update' instead."
+            "\nIf you would like to update your exercises use 'sneki update' instead."
         )
-        return False
+        raise typer.Exit(1)
 
     shutil.copytree(library_exercises_path, exercises_folder_path, dirs_exist_ok = True)
 
     snakelings_logger.info(Colours.BLUE.apply("✨ Exercises copied!"))
+
+@app.command(help = "Update exercises folder in the current working directory.")
+def update(
+    path_to_exercises_folder: str = typer.Argument("./exercises", help = "The path to dump the exercises."), 
+
+    debug: bool = typer.Option(False, help = "Log more details.")
+):
+    did_update = False
+    exercises_folder_path = Path(path_to_exercises_folder)
+
+    if debug:
+        snakelings_logger.setLevel(logging.DEBUG)
+
+    library_exercises_path = Path(__file__).parent.joinpath("exercises")
+
+    snakelings_logger.debug("Checking and copying exercises from snakelings module...")
+
+    for exercise in library_exercises_path.iterdir():
+        local_exercise = exercises_folder_path.joinpath(exercise.stem)
+
+        if local_exercise.exists():
+            continue
+
+        snakelings_logger.debug(f"Copying exercise from '{exercise}'...")
+        shutil.copytree(exercise, local_exercise)
+        did_update = True
+
+    if not did_update:
+        snakelings_logger.info(Colours.RED.apply("There are no new exercises."))
+        raise typer.Exit()
+
+    snakelings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
