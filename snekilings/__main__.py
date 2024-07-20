@@ -5,16 +5,16 @@ if TYPE_CHECKING:
     ...
 
 import typer
+import random
 import shutil
 import logging
 from pathlib import Path
 from rich.console import Console
 from devgoldyutils import Colours
 from rich.markdown import Markdown
-import random
 
-from .logger import snakelings_logger
 from .execution import test_exercise
+from .logger import snakelings_logger
 from .watchdog import watch_exercise_complete, watch_exercise_modify
 from .exercises_handler import ExerciseHandler
 
