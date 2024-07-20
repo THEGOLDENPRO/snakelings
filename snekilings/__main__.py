@@ -152,6 +152,8 @@ def update(
 
     library_exercises_path = Path(__file__).parent.joinpath("exercises")
 
+    snakelings_logger.debug("Checking and copying exercises from snakelings module...")
+
     for exercise in library_exercises_path.iterdir():
         local_exercise = exercises_folder_path.joinpath(exercise.stem)
 
