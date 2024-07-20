@@ -1,5 +1,3 @@
-title = "Math"
-
 [code]
 execute_first = true
 use_pytest = true

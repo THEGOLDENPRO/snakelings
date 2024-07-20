@@ -35,7 +35,7 @@ class Exercise:
         config_title = config_data.get("title")
         config_code_data = config_data.get("code", {})
 
-        self.title = config_title if config_title is not None else " ".join(exercise_folder_name.split("_")[1:])
+        self.title = config_title if config_title is not None else (" ".join(exercise_folder_name.split("_")[1:]).title())
 
         self.readme = readme_file.read().format(
             id = self.id, 
