@@ -4,9 +4,9 @@
 
   <sub>Learn Python the right way. By actually writing code and solving problems! *Also known as Snakelings.*</sub>
 
-</div>
+  <img width="1000px" src="https://github.com/THEGOLDENPRO/snakelings/assets/66202304/ce48eae7-c2c6-4331-b7fe-a67bbfc07978">
 
-<img width="1000px" src="https://github.com/THEGOLDENPRO/snakelings/assets/66202304/ce48eae7-c2c6-4331-b7fe-a67bbfc07978">
+</div>
 
 <br>
 

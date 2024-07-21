@@ -117,9 +117,8 @@ def start(
     snekilings_logger.info(
         Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
         "\nCome back for more exercises later as snekilings grows 🪴 more or run the " \
-        "'snekilings update' command to check if there are any new exercises."
+        "'sneki update' command to check if there are any new exercises."
     )
-
 
 @app.command(help = "Create exercises folder in the current working directory.")
 def init(
@@ -143,7 +142,10 @@ def init(
         )
         raise typer.Exit(1)
 
-    shutil.copytree(library_exercises_path, exercises_folder_path, dirs_exist_ok = True)
+    exercises_folder_path.mkdir(exist_ok = True)
+
+    for path in library_exercises_path.iterdir():
+        copy_exercise(path, exercises_folder_path)
 
     snekilings_logger.info(Colours.BLUE.apply("✨ Exercises copied!"))
 
@@ -163,14 +165,15 @@ def update(
 
     snekilings_logger.debug("Checking and copying exercises from snekilings module...")
 
-    for exercise in library_exercises_path.iterdir():
-        local_exercise = exercises_folder_path.joinpath(exercise.stem)
+    for exercise_path in library_exercises_path.iterdir():
+        local_exercise = exercises_folder_path.joinpath(exercise_path.stem)
 
         if local_exercise.exists():
             continue
 
-        snekilings_logger.debug(f"Copying exercise from '{exercise}'...")
-        shutil.copytree(exercise, local_exercise)
+        snekilings_logger.debug(f"Copying exercise from '{exercise_path}'...")
+        # shutil.copytree(exercise_path, local_exercise)
+        copy_exercise(exercise_path, exercises_folder_path)
         did_update = True
 
     if not did_update:
@@ -178,3 +181,24 @@ def update(
         raise typer.Exit()
 
     snekilings_logger.info(Colours.BLUE.apply("✨ New exercises added!"))
+
+
+def copy_exercise(path_to_exercise: Path, exercise_folder_path: Path):
+
+    for exercise_file_path in path_to_exercise.iterdir():
+
+        if exercise_file_path.is_dir():
+            continue
+
+        destination_path = exercise_folder_path.joinpath(path_to_exercise.name)
+
+        snekilings_logger.debug(
+            f"Copying exercise file '{exercise_file_path}' --> '{destination_path}'..."
+        )
+
+        if not exercise_file_path.suffix == ".py":
+            destination_path = destination_path.joinpath(".data")
+
+        destination_path.mkdir(parents = True, exist_ok = True)
+
+        shutil.copy(exercise_file_path, destination_path.joinpath(exercise_file_path.name))

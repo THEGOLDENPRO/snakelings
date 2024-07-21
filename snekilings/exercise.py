@@ -26,8 +26,8 @@ class Exercise:
         exercise_folder_name = self.path.stem
 
         code_file = self.path.joinpath("main.py").open("r")
-        readme_file = self.path.joinpath("readme.md").open("r")
-        config_file = self.path.joinpath("config.toml").open("r")
+        readme_file = self.path.joinpath(".data", "readme.md").open("r")
+        config_file = self.path.joinpath(".data", "config.toml").open("r")
 
         self.id = int(exercise_folder_name.split("_")[0]) # TODO: Handle the exception here.
 
