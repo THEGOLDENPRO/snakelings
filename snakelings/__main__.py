@@ -49,7 +49,7 @@ def start(
 
     if not exercises_path.exists():
         snekilings_logger.error(
-            f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'sneki init'."
+            f"The exercises folder ({exercises_path.absolute()}) was not found! Create it with 'snakelings init'."
         )
         raise typer.Exit(1)
 
@@ -117,7 +117,7 @@ def start(
     snekilings_logger.info(
         Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
         "\nCome back for more exercises later as snekilings grows 🪴 more or run the " \
-        "'sneki update' command to check if there are any new exercises."
+        "'snakelings update' command to check if there are any new exercises."
     )
 
 @app.command(help = "Create exercises folder in the current working directory.")
@@ -138,7 +138,7 @@ def init(
     if exercises_folder_path.exists() and next(exercises_folder_path.iterdir(), None) is not None:
         snekilings_logger.error(
             f"The exercises folder ({exercises_folder_path.absolute()}) is not empty!" \
-            "\nIf you would like to update your exercises use 'sneki update' instead."
+            "\nIf you would like to update your exercises use 'snakelings update' instead."
         )
         raise typer.Exit(1)
 
