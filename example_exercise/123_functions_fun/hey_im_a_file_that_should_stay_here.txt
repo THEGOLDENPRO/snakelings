@@ -1,0 +1,4 @@
+Yes, that's right, I should stay here in the root directory of the exercise as I'm an "extra file".
+
+Since we've specified that in the config snakelings will not move me to the hidden .data file when initializing the exercises for the user. 
+This is useful for when you need a file to be present in root to be accessed from a python script.

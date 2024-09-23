@@ -9,13 +9,13 @@ import sys
 import subprocess
 from devgoldyutils import LoggerAdapter
 
-from .logger import snekilings_logger
+from .logger import snakelings_logger
 
 __all__ = (
     "test_exercise",
 )
 
-logger = LoggerAdapter(snekilings_logger, prefix = "execution")
+logger = LoggerAdapter(snakelings_logger, prefix = "execution")
 
 def execute_exercise_code(exercise: Exercise) -> Tuple[bool, str]:
     main_py_path = exercise.path.joinpath("main.py")
@@ -36,16 +36,25 @@ def execute_exercise_code(exercise: Exercise) -> Tuple[bool, str]:
     return True if return_code == 0 else False, output if return_code == 0 else output_error
 
 def test_exercise_with_pytest(exercise: Exercise) -> Tuple[bool, str]:
-    main_py_path = exercise.path.joinpath("main.py").absolute()
+    logger.debug(
+        f"Testing exercise '{exercise.path.joinpath('main.py').absolute()}' with pytest..."
+    )
 
-    logger.debug(f"Testing exercise '{main_py_path}' with pytest...")
+    pytest_scripts = exercise.get_pytest_scripts()
+
+    args = [
+        sys.executable,
+        "-m",
+        "pytest",
+        "--quiet",
+    ]
+
+    args.extend(
+        [str(path) for path in pytest_scripts]
+    )
 
     popen = subprocess.Popen(
-        [
-            "pytest",
-            "--quiet",
-            main_py_path
-        ], 
+        args,
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE,
         text = True
@@ -57,7 +66,7 @@ def test_exercise_with_pytest(exercise: Exercise) -> Tuple[bool, str]:
     return True if return_code == 0 else False, stdout
 
 def test_exercise(exercise: Exercise) -> Tuple[bool, str]:
-    if exercise.use_pytest is True:
+    if exercise.config_data.get("pytest") is not None:
         return test_exercise_with_pytest(exercise)
 
     return execute_exercise_code(exercise)

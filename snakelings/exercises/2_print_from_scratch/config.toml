@@ -1,0 +1,8 @@
+version = 1
+
+title = "Print from scratch"
+
+[pytest]
+test_scripts = [
+    {module = "test_stdout.py"}
+]

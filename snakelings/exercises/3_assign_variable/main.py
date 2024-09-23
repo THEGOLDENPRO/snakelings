@@ -3,6 +3,6 @@
 # This variable. 👇
 cat_amount = 
 
-# DO NOT TOUCH 🐈 🐾
+# DO NOT TOUCH 🐈 🐾 MEOW!
 def test_cat_variable():
     assert cat_amount == 7

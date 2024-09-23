@@ -1,0 +1,1 @@
+This is an example of how exercises should be created **from the developer point of view.** If you're a developer who's using snakelings to learn python ignore this and proceed with your day. 😊 This is only a reference for us and our contributors.
