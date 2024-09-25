@@ -10,7 +10,7 @@ from watchdog.observers import Observer
 from devgoldyutils import LoggerAdapter, Colours
 
 from ..exercise import Exercise
-from ..logger import snekilings_logger
+from ..logger import snakelings_logger
 from .event_handlers import LoggingEventHandler, ModifiedEventHandler
 
 __all__ = (
@@ -18,7 +18,7 @@ __all__ = (
     "watch_exercise_modify"
 )
 
-logger = LoggerAdapter(snekilings_logger, prefix = Colours.GREY.apply("🐶 Watch Dog"))
+logger = LoggerAdapter(snakelings_logger, prefix = Colours.GREY.apply("🐶 Watch Dog"))
 logging_event_handler_logger = LoggerAdapter(logger, prefix = "Logging")
 
 def watch_exercise_complete(exercise: Exercise) -> None:
@@ -29,7 +29,7 @@ def watch_exercise_complete(exercise: Exercise) -> None:
         completed = Exercise(Path(event.src_path)).completed
 
         if completed:
-            snekilings_logger.debug(f"The exercise '{exercise.title}' was marked completed.")
+            snakelings_logger.debug(f"The exercise '{exercise.title}' was marked completed.")
             return
 
         event = watch_exercise_modify(exercise)

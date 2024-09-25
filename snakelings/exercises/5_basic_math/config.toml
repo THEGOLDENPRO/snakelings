@@ -1,0 +1,10 @@
+version = 1
+
+[code]
+execute_first = true
+use_pytest = true
+
+[pytest]
+test_scripts = [
+    {module = "test_math_function.py"}
+]
