@@ -3,5 +3,9 @@ version = 1
 title = "Assign a varible"
 
 [code]
-use_pytest = true
 execute_first = true
+
+[pytest]
+test_scripts = [
+    {module = "test_kitty_amount.py"}
+]

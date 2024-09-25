@@ -23,23 +23,35 @@ from .exercises_handler import ExerciseHandler
 __all__ = ()
 
 EXERCISE_ERROR_MESSAGES = [
-    "Oh no (anyways), an exception has been raised. Please look over the error message and retry.", 
-    "Oh oh, an exception occurred. Try and interpret the traceback above and try again. Don't forget to save.", 
-    "Looks like that one didn't execute successfully. Try again bro."
+    "Oh no (anyways), an exception has been raised. Please look over the error message and retry.",
+    "Oh oh, an exception occurred. Try and interpret the traceback below and try again. Don't forget to save.",
+    "Looks like that one didn't execute successfully. Look at the traceback and try again."
 ]
 
 app = typer.Typer(
-    pretty_exceptions_enable = False, 
+    pretty_exceptions_enable = False,
     help = "🐍 A collection of small exercises to assist beginners at reading and writing Python code."
 )
 
 @app.command(help = "Start the exercises!")
 def start(
-    exercise_id: int = typer.Argument(0, help = "The ID of the exercise to start from."), 
+    exercise_id: int = typer.Argument(0, help = "The ID of the exercise to start from."),
     path_to_exercises_folder: str = typer.Option("./exercises", "--exercises-path", help = "The path to the exercises folder you are using."),
 
-    debug: bool = typer.Option(False, help = "Log more details."), 
-    wait: bool = typer.Option(True, help = "Should we wait some time before clearing the screen and moving onto the next exercise?")
+    enter_to_continue: bool = typer.Option(
+        True,
+        "--ets/--no-ets",
+        "--enter-to-continue/--no-enter-to-continue",
+        is_flag = True,
+        help = "ON by default, this enforces you to press enter before moving onto the next exercise."
+    ),
+    wait_to_continue: bool = typer.Option(
+        False,
+        "--wts",
+        "--wait-to-continue",
+        help = "Waits some time before moving onto the next exercise."
+    ),
+    debug: bool = typer.Option(False, help = "Log more details.")
 ):
     exercises_path = Path(path_to_exercises_folder)
 
@@ -105,8 +117,12 @@ def start(
 
         print(f"\n{Colours.ORANGE.apply('[✨ Output]')} \n{output}")
 
-        if wait:
-            snakelings_logger.info("Moving onto the next exercise in 3 seconds...")
+        if enter_to_continue:
+            snakelings_logger.info("Well done! ✨ Press enter to move onto the next question when you are ready!")
+            input("\n [ENTER TO CONTINUE] ")
+
+        elif wait_to_continue:
+            snakelings_logger.info("Well done! ✨ Moving onto the next exercise in 3 seconds...")
             time.sleep(4) # TODO: Make this adjustable.
 
     if no_exercises:
@@ -117,7 +133,7 @@ def start(
 
     snakelings_logger.info(
         Colours.GREEN.apply("🎊 Congrats, you have finished all the exercises we currently have to offer.") +
-        "\nCome back for more exercises later as snekilings grows 🪴 more or run the " \
+        "\nCome back for more exercises later as snakelings grows 🪴 more or run the " \
         "'snakelings update' command to check if there are any new exercises."
     )
 
@@ -134,7 +150,7 @@ def init(
 
     library_exercises_path = Path(__file__).parent.joinpath("exercises")
 
-    snakelings_logger.debug("Copying exercises from snekilings module...")
+    snakelings_logger.debug("Copying exercises from snakelings module...")
 
     if exercises_folder_path.exists() and next(exercises_folder_path.iterdir(), None) is not None:
         snakelings_logger.error(
@@ -164,7 +180,7 @@ def update(
 
     library_exercises_path = Path(__file__).parent.joinpath("exercises")
 
-    snakelings_logger.debug("Checking and copying exercises from snekilings module...")
+    snakelings_logger.debug("Checking and copying exercises from snakelings module...")
 
     for exercise_path in library_exercises_path.iterdir():
         local_exercise = exercises_folder_path.joinpath(exercise_path.stem)

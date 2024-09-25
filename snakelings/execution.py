@@ -5,6 +5,7 @@ if TYPE_CHECKING:
     from typing import Tuple
     from .exercise import Exercise
 
+import os
 import sys
 import subprocess
 from devgoldyutils import LoggerAdapter
@@ -25,7 +26,7 @@ def execute_exercise_code(exercise: Exercise) -> Tuple[bool, str]:
         [sys.executable, main_py_path], 
         stderr = subprocess.PIPE, 
         stdout = subprocess.PIPE, 
-        text = True, 
+        text = True
     )
 
     return_code = popen.wait()
@@ -46,18 +47,24 @@ def test_exercise_with_pytest(exercise: Exercise) -> Tuple[bool, str]:
         sys.executable,
         "-m",
         "pytest",
-        "--quiet",
+        "--quiet"
     ]
 
     args.extend(
         [str(path) for path in pytest_scripts]
     )
 
+    env_to_pass = os.environ.copy()
+
+    # letting the test scripts known where the exercise is.
+    env_to_pass["SNAKELINGS_EXERCISE_PATH"] = exercise.path.absolute()
+
     popen = subprocess.Popen(
         args,
         stderr = subprocess.PIPE,
         stdout = subprocess.PIPE,
-        text = True
+        text = True,
+        env = env_to_pass
     )
 
     stdout, stderr = popen.communicate()
