@@ -120,7 +120,7 @@ def start(
 
         if enter_to_continue:
             snakelings_logger.info("Well done! ✨ Press enter to move onto the next question when you are ready!")
-            input("\n [ENTER TO CONTINUE] ")
+            input("\n[ENTER TO CONTINUE]")
 
         elif wait_to_continue:
             snakelings_logger.info("Well done! ✨ Moving onto the next exercise in 3 seconds...")
