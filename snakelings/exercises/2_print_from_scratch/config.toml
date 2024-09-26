@@ -2,6 +2,8 @@ version = 1
 
 title = "Print from scratch"
 
+hint = "Look at what the assertion error is telling you."
+
 [pytest]
 test_scripts = [
     {module = "test_stdout.py"}

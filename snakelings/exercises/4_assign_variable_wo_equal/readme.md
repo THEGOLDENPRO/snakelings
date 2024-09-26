@@ -1,3 +1,4 @@
+# Let's assign some variables! (2nd Edition)
 Okay now, same thing as the last exercise but we're gonna change some *stuff* and you must keep the `:int` there.
 
 # The Task!

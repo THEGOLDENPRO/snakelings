@@ -47,7 +47,10 @@ def test_exercise_with_pytest(exercise: Exercise) -> Tuple[bool, str]:
         sys.executable,
         "-m",
         "pytest",
-        "--quiet"
+        "--quiet",
+        "--log-cli-level=warning",
+        "--color=yes",
+        "--tb=line"
     ]
 
     args.extend(

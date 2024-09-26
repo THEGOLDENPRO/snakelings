@@ -14,4 +14,4 @@ def test_output(capsys):
 
     fuzzy_value = fuzz.ratio(captured.out, EXCEPTED_OUTPUT)
 
-    assert fuzzy_value > 80 
+    assert fuzzy_value > 80, "You're not printing 'Hello, Snakelings!', check your code again."

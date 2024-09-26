@@ -14,6 +14,8 @@ from rich.console import Console
 from devgoldyutils import Colours
 from rich.markdown import Markdown
 
+from . import terminal
+
 from .exercise import Exercise
 from .execution import test_exercise
 from .logger import snakelings_logger
@@ -42,7 +44,6 @@ def start(
         True,
         "--ets/--no-ets",
         "--enter-to-continue/--no-enter-to-continue",
-        is_flag = True,
         help = "ON by default, this enforces you to press enter before moving onto the next exercise."
     ),
     wait_to_continue: bool = typer.Option(
@@ -76,16 +77,16 @@ def start(
     for exercise in sorted(handler.get_exercises(), key = lambda x: x.id):
         no_exercises = False
 
+        if exercise_id >= exercise.id and not exercise.id == exercise_id:
+            continue
+
         if exercise.completed:
             result, _ = test_exercise(exercise)
 
             if result is True:
                 continue
 
-        if exercise_id >= exercise.id and not exercise.id == exercise_id:
-            continue
-
-        console.clear()
+        terminal.proper_clear()
 
         markdown = Markdown(exercise.readme)
         console.print(markdown)
@@ -95,8 +96,8 @@ def start(
 
             print(f"\n{Colours.RED.apply('[🛑 Problem]')} \n{output}")
 
-        print(Colours.ORANGE.apply(f"🚧 Progress: {exercise.id} / {exercise_count}"))
-        print(Colours.CLAY.apply(f"⚡ Complete the '{exercise.title}' exercise!"))
+        print(Colours.ORANGE.apply(f"\n🚧 Progress: {exercise.id} / {exercise_count}"))
+        print(Colours.CLAY.apply(f"⚡ Complete the '{exercise.title}' exercise!\n"))
 
         watch_exercise_complete(exercise) # This will halt here until the exercise is marked complete
 
@@ -153,6 +154,8 @@ def init(
     snakelings_logger.debug("Copying exercises from snakelings module...")
 
     if exercises_folder_path.exists() and next(exercises_folder_path.iterdir(), None) is not None:
+        # TODO: if it's a hidden file like .pytest_cache for 
+        # example then it shouldn't count as the folder not being empty.
         snakelings_logger.error(
             f"The exercises folder ({exercises_folder_path.absolute()}) is not empty!" \
             "\nIf you would like to update your exercises use 'snakelings update' instead."
